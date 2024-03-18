@@ -1,0 +1,40 @@
+.product {
+    min-width: 500px;
+}
+.product.thanks {
+    min-width: 1000px;
+}
+
+.product h1 {
+    font-size: 35px;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.product h2,
+.product h3 {
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+.product p {
+    margin-bottom: 10px;
+}
+.product p span {
+    color: red;
+} 
+.product span {
+    color: #999;
+}
+.product button {
+    display: flex;
+    border: 1px solid #3ebb95;
+    padding: 7px 0px 7px 20px;
+    margin-top: 15px;
+    transition: all .5s;
+}
+.product button:hover {
+    border: 1px solid #f58220;
+    transition: all .5s;
+}
+#card-element {padding: 7px; border: 2px solid #efefef;transition: all .5s;}
+
