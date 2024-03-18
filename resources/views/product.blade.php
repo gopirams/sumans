@@ -1,13 +1,13 @@
 @include('header')
     <div class="product scale-100 p-6 bg-white dark:bg-gray-800/50 dark:bg-gradient-to-bl from-gray-700/50 via-transparent dark:ring-1 dark:ring-inset dark:ring-white/5 rounded-lg shadow-2xl shadow-gray-500/20 dark:shadow-none motion-safe:hover:scale-[1.01] transition-all duration-250 focus:outline focus:outline-2 focus:outline-red-500">
         <h2>{{ $product->name }}</h2>
-        <p>Price: INR <span>{{ $product->price }}</span></p>
+        <p>Price: $ <span>{{ $product->price }}</span></p>
         <span>{{ $product->description }}</span>
     </div>
 
     <div class="product scale-100 p-6 bg-white dark:bg-gray-800/50 dark:bg-gradient-to-bl from-gray-700/50 via-transparent dark:ring-1 dark:ring-inset dark:ring-white/5 rounded-lg shadow-2xl shadow-gray-500/20 dark:shadow-none motion-safe:hover:scale-[1.01] transition-all duration-250 focus:outline focus:outline-2 focus:outline-red-500">
         
-        <form action="{{ route('purchase.confirm', $product->id) }}" method="POST">
+        <form action="{{ route('purchase.confirm', $product->id) }}" method="POST" id="payment-form">
             @csrf
             <h2>
                 Credit or debit card
@@ -64,6 +64,39 @@
                     displayError.textContent = '';
                 }
             });
+
+            // Handle form submission.
+        var form = document.getElementById('payment-form');
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            stripe.createToken(card).then(function(result) {
+                if (result.error) {
+                // Inform the user if there was an error.
+                var errorElement = document.getElementById('card-errors');
+                errorElement.textContent = result.error.message;
+                } else {
+                // Send the token to your server.
+                stripeTokenHandler(result.token);
+                }
+            });
+        });
+
+        // Submit the form with the token ID.
+        function stripeTokenHandler(token) {
+            // Insert the token ID into the form so it gets submitted to the server
+            var form = document.getElementById('payment-form');
+            var hiddenInput = document.createElement('input');
+            hiddenInput.setAttribute('type', 'hidden');
+            hiddenInput.setAttribute('name', 'stripeToken');
+            hiddenInput.setAttribute('value', token.id);
+            form.appendChild(hiddenInput);
+
+                // console.log(token);
+            
+            // Submit the form
+            form.submit();
+        }
         </script>
     </div>
 

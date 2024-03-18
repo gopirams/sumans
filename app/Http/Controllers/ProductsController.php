@@ -32,10 +32,14 @@ class ProductsController extends Controller
 
         $token = $request->stripeToken;
 
+        // Convert price from INR to paise
+        $amount = (int) ($product->price * 100);
+        
+
         // Create a charge
         $charge = Charge::create([
-            'amount' => $product->price, // Amount in cents
-            'currency' => 'inr',
+            'amount' => $amount, // Amount in cents
+            'currency' => 'usd',
             'source' => $token,
             'description' => 'Purchase of ' . $product->name,
         ]);
