@@ -24,6 +24,6 @@ Route::get('/product/{id}', [ProductsController::class, 'show'])->name('product.
 
 Route::post('/purchase/{product}', [ProductsController::class, 'confirmPurchase'])->name('purchase.confirm');
 
-Route::get('/thankyou', [ProductsController::class, 'thankyou']);
+Route::get('/thankyou', [ProductsController::class, 'thankyou'])->name('thankyou');
 
 Route::get('/', [ProductsController::class, 'index'])->name('home');

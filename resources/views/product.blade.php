@@ -65,8 +65,8 @@
                 }
             });
 
-            // Handle form submission.
-        var form = document.getElementById('payment-form');
+        // Handle form submission.
+        /* var form = document.getElementById('payment-form');
         form.addEventListener('submit', function(event) {
             event.preventDefault();
 
@@ -96,7 +96,7 @@
             
             // Submit the form
             form.submit();
-        }
+        } */
         </script>
     </div>
 

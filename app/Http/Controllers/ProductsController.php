@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Stripe\Stripe;
-use Stripe\Charge;
+// use Stripe\Charge;
+use Stripe\PaymentIntent;
 use Illuminate\Http\Request;
 use App\Models\Products;
 
@@ -33,22 +34,32 @@ class ProductsController extends Controller
         $token = $request->stripeToken;
 
         // Convert price from INR to paise
-        $amount = (int) ($product->price * 100);
-        
+        $amount = (int) ($product->price * 100);        
+
+        $paymentIntent = PaymentIntent::create([
+            'amount' => $amount, // Amount in cents
+            'currency' => 'inr', // Currency code for Indian Rupees
+            'payment_method_types' => ['card'],
+            'description' => 'Purchase of ' . $product->name,
+        ]);        
+
+        if ($paymentIntent->id) {
+            return redirect()->route('thankyou');
+        }
 
         // Create a charge
-        $charge = Charge::create([
+        /* $charge = Charge::create([
             'amount' => $amount, // Amount in cents
             'currency' => 'usd',
             'source' => $token,
             'description' => 'Purchase of ' . $product->name,
-        ]);
+        ]); */
 
         // Handle successful charge
-        if ($charge->status === 'succeeded') {
+        /*if ($charge->status === 'succeeded') {
 
             return redirect()->route('thankyou');
-        }
+        } */
         
     }
 
